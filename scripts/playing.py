@@ -1,36 +1,32 @@
 #!/usr/bin/env python
 
-from Bio.PDB import PDBList,PDBParser
-
-from scipy.spatial.distance import euclidean
+from Bio.PDB import PDBList,PDBParser,Selection
 
 import networkx as nx
 import matplotlib.pyplot as plt
 
 from pprint import pprint as pp
-from numpy import zeros
 
+import numpy as np
 
 distanceThreshold = 1 #sys.argv[2]
 
-pdbl = PDBList()
-pdbp = PDBParser()
+pdbList = PDBList()
+pdbParser = PDBParser()
 
-pro_name = '1MBN'
-structure =  pdbp.get_structure(pro_name,pdbl.retrieve_pdb_file(pro_name))
-atom_cords = {at.get_serial_number():{"cord" : at.get_coord()} for at in structure.get_atoms()}
+proteinName = '1MBN'
+structure =  pdbParser.get_structure(proteinName,pdbList.retrieve_pdb_file(proteinName))
 
-mtrxSize = max(atom_cords.keys())
-distanceMatrix = zeros([mtrxSize,mtrxSize])
+resList = Selection.unfold_entities(structure,'R')
+distanceMatrix = np.zeros([len(resList),len(resList)])
 
-atom_graph = nx.Graph()
+def genDistanceMatrix(dMatrix,rList):	
+	caMap = {res.id[1] : res['CA'] for res in rList if 'CA' in res}
+	
+	pp(caMap)
+	pp(len(caMap))
 
-def genDistances(atm):
-	cord = atom_cords[atm]["cord"]
-	for atm2,cord2 in atom_cords.iteritems():
-		if atm2 >= atm:
-			continue
-		distanceMatrix[atm-1,atm2-1] = euclidean(cord,cord2["cord"])
+genDistanceMatrix(distanceMatrix,resList)
 # for atm in atom_cords.keys():
 # 	genDistances(atm)
 
