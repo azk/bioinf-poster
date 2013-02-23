@@ -14,7 +14,7 @@ def build_graph_from_distance_matrix(dist_matrix,threshold):
 	return graph
 
 
-def write_simple_file(graph):
+def write_simple_file(graph,file_name):
 	with open('./graph.txt','w') as f:
 		for e in graph.edges():
 			f.write("{} {}\n".format(e[0],e[1]))
