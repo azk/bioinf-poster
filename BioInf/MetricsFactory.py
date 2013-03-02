@@ -12,7 +12,10 @@ class EuclidianMetric(object):
 		distance_matrix = np.zeros([len(res_list),len(res_list)])
 		for i,res1 in enumerate(res_list):
 			for j,res2 in enumerate(res_list):
-				distance_matrix[i,j] = res1['CA'] - res2['CA']
+				try:
+					distance_matrix[i,j] = res1['CA'] - res2['CA']
+				except KeyError:
+					distance_matrix[i,j] = 0
 
 		return distance_matrix
 

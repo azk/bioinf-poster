@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 
-from Bio.PDB import PDBParser,PDBList,Selection
+from Bio.PDB import PDBParser,PDBList
 
+import os
+
+PDB_REPO = os.path.dirname(__file__) + "/pdb_repo/"
 pdbList = PDBList()
 pdbParser = PDBParser()
 
@@ -13,10 +16,10 @@ class BadProteinCode(Exception):
 
 class PSData(object):
 	'''Class to contain all data relevant to a protein structure and graph representation'''
-	def __init__(self,protein_code):
+	def __init__(self,protein_code, dir_addon=""):
 		try:
 			self._structure = pdbParser.get_structure(protein_code,\
-				pdbList.retrieve_pdb_file(protein_code))
+				pdbList.retrieve_pdb_file(protein_code,pdir=PDB_REPO+dir_addon))
 		except IOError:
 			raise BadProteinCode(protein_code)
 		self._pdb_code = protein_code
@@ -24,7 +27,7 @@ class PSData(object):
 		self._metrics_list = dict()
 
 	def pdb_code():
-	    doc = "The pdb_code property. pdb_code is read-only!"
+	    # doc = "The pdb_code property. pdb_code is read-only!"
 	    def fget(self):
 	        return self._pdb_code
 	    def fset(self, value):

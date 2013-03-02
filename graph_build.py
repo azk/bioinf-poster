@@ -15,11 +15,15 @@ def build_graph_from_distance_matrix(dist_matrix,threshold):
 
 
 def write_simple_file(graph,file_path):
-	with open(file_path,'w') as f:
-		for e in graph.edges():
-			f.write("{} {}\n".format(e[0],e[1]))
+	write_simple_graph(graph, file_path)
 
 def write_sif_file(graph,file_path):
+	write_simple_graph(graph, file_path, edge_interaction="pp")
+
+def write_mfinder_file(graph,file_path):
+	write_simple_graph(graph, file_path, edge_weight="1")
+
+def write_simple_graph(graph, file_path,edge_interaction="",edge_weight=""):
 	with open(file_path,'w') as f:
 		for e in graph.edges():
-			f.write("{} pp {}\n".format(e[0],e[1]))
+			f.write("{} {} {} {}\n".format(e[0],edge_interaction,e[1],edge_weight))		
