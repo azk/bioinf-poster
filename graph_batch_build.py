@@ -7,8 +7,8 @@ from Bio.PDB import PDBParser
 
 import os
 
-SRC_DIR = "data/ec_hs_culled_30each"
-DST_DIR = "data/graphs/ec_hs_culled_30each"
+SRC_DIR = "data/ec_hs_culled_30_smallest"
+DST_DIR = "data/graphs/ec_hs_culled_30each_smallest"
 
 euclidian = MetricsFactory['euclidian']()
 parser = PDBParser()

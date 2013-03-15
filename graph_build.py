@@ -26,4 +26,10 @@ def write_mfinder_file(graph,file_path):
 def write_simple_graph(graph, file_path,edge_interaction="",edge_weight=""):
 	with open(file_path,'w') as f:
 		for e in graph.edges():
-			f.write("{} {} {} {}\n".format(e[0],edge_interaction,e[1],edge_weight))		
+			f.write("{}".format(e[0]))
+			if edge_interaction != "":
+				f.write(" {}".format(edge_interaction))
+			f.write(" {}".format(e[1]))
+			if edge_weight != "":
+				f.write(" {}".format(edge_weight))
+			f.write("\n")
